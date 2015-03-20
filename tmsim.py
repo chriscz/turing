@@ -96,7 +96,6 @@ def parse_states():
     # STEP OFF
     stepping = filtered_reader()
     stepping = stepping[stepping.rfind("STEP")+4:].strip().lower()
-    print stepping
     if stepping == 'on':
         stepping = True
     else:
