@@ -21,13 +21,27 @@ class Node:
     def __hash__(self):
         return self.__key()
 
+
+def prepare_line(line):
+    """
+        Strips comments and additional whitespace
+    """
+    cmts = line.find('//')
+    if cmts >= 0:
+        line = line[0: cmts].strip()
+    return line
+
+def filtered_reader():
+    line = None
+    while not line:
+        line = raw_input()
+        line = prepare_line(line)
+    return line
+
 def simulate(start, statemap, step=False):
     kb = None
     while True:
-        kb = raw_input()
-        cmts = kb.find('//')
-        if cmts >= 0:
-            kb = kb[0: cmts].strip()
+        kb = filtered_reader()
         if not kb: continue
         if kb == END_OF_INPUT: return
         kb = list(kb)
@@ -80,20 +94,19 @@ def parse_states():
     # 1. Read whether step debugging is on or not
     # STEP ON
     # STEP OFF
-    stepping = raw_input()
+    stepping = filtered_reader()
     stepping = stepping[stepping.rfind("STEP")+4:].strip().lower()
     print stepping
     if stepping == 'on':
         stepping = True
     else:
-        print "$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"
         stepping = False
     # 2. Read the names of all the states
     # 	 The following prefixes can be used to indicate the type of the edge
     #	 A - Accepting
     #	 R - Rejecting
     #	 S - Start state
-    defs = raw_input().strip()
+    defs = filtered_reader()
     defs = defs.split(",")
     start = None
     for i in defs:
@@ -109,13 +122,10 @@ def parse_states():
             states[i] = Node(i)
     assert start
     while True:
-        line = raw_input().strip()
+        line = filtered_reader()
         # Look for the end of input sentinel EOF
         if line == END_OF_INPUT:
             break
-        cmts = line.find('//')
-        if cmts >= 0:
-            line = line[0: cmts].strip()
         if not line: continue
         l, r = [i.strip() for i in line.split(':', 1)]
         frm, to = [i.strip() for i in l.split('->', 1)]

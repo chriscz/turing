@@ -1,4 +1,4 @@
-STEP ON //No debug stepping
+STEP OFF //No debug stepping
 0,1,2,4,S5,8,9,10,11,12,A13,14,16,17,15
 5->8: 0->X,R
 
@@ -43,10 +43,11 @@ STEP ON //No debug stepping
 17->17: 0->0,L
 17->15: X->X,L
 EOF
-// This is the input data
-// Each line is an input string
+// This is the input data, each line is an input string
+// When using interactively you may type this in from
+// the commandline
 0000
 // One more lnine
 00
-// And then inidcate end of input
+// And then indicate end of input
 EOF
